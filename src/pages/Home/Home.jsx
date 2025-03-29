@@ -15,7 +15,8 @@ import axios, { all } from 'axios'
 
 
 function Home() {
-  
+  const [userInfo,setUserInfo] = useState(null)
+  const [loading,SetLoading] = useState(false)
   const [openAddEditModal,setOpenAddEditModal] = useState({
     isShown:false,
     type:"add",
@@ -46,7 +47,7 @@ function Home() {
     })
   }
 
-  const [userInfo,setUserInfo] = useState(null)
+  
   const [allNotes, setAllNotes] = useState([])
   const navigate = useNavigate()
 
@@ -62,20 +63,24 @@ function Home() {
 
 
   const getAllNotes = async () =>{
+     SetLoading(true)
       try {
-              const response = await axiosInstance.get("api/v1/notes/")
-        
-              if(response.data && response.data.all_notes){
-                console.log(response.data);
-                setAllNotes(response.data.all_notes)
+            const response = await axiosInstance.get("api/v1/notes/")
+      
+            if(response.data && response.data.all_notes){
+              console.log(response.data);
+              setAllNotes(response.data.all_notes)
 
-              }
+            }
 
       } catch (error) {
         if (error.response  && error.response.error) {
           console.log(error.response.error);
           
         } 
+      }
+      finally{
+        SetLoading(false)
       }
   }
 
@@ -160,7 +165,9 @@ function Home() {
   }
 
   useEffect(()=>{
-    getUserInfo();
+    if (!userInfo) {
+      getUserInfo();
+    }
     getAllNotes();
     return ()=>{}
   },[])
@@ -168,31 +175,43 @@ function Home() {
   return (
     <>
     <Navbar userInfo={userInfo} onSearchNote={onSearchNote} onSearchClear={onSearchClear}  />
-    <div className='container mx-auto'>
-      {allNotes && allNotes.length>0 ? 
-            <div className='grid grid-cols-3 gap-4 mt-8 px-2'>
-              {
-                allNotes.map((element)=>(
-                    <NoteCard title={element.title}
-                    date={element.created_at} 
-                    content={element.description}
 
-                    tags= {element.tags ? element.tags.split(",").map(tag => tag) : []} 
-                    category = {element.category}
-                    isPinned={element.ispinned}
-                    onEdit={()=>{handleEditNote(element)}}
-                    onDelete={()=>{deleteNote(element)}}
-                    onPinNote={()=>{pinNote(element)}}
-                    key={element.id}
-                    />
-                ))
-              }
-              </div> 
-            :<EmptyCard 
-            imgSrc={isSearch?"/no-notes.svg":"/add-notes.svg"} 
-            message={isSearch?`No Notes Found as per the given SEARCH query`:`Start Creating your first note click the right bottom  'Add' button to join thoughts , ideas and reminders . Let's Get started !` }
-            extramessage = {userInfo?"":"Please Login/Register then proceed"}
-                        />}
+    <div className='container mx-auto'>
+      {loading?
+            <div className='flex h-screen justify-center items-center'>
+            <span className='text-gray-500 text-2xl'>Loading Notes ... </span>
+          </div>
+        : 
+        <div>
+        {allNotes && allNotes.length>0 ? 
+              <div className='flex gap-2 flex-wrap justify-center py-4'>
+                {
+                  allNotes.map((element)=>(
+                      <NoteCard title={element.title}
+                      date={element.created_at} 
+                      content={element.description}
+  
+                      tags= {element.tags ? element.tags.split(",").map(tag => tag) : []} 
+                      category = {element.category}
+                      isPinned={element.ispinned}
+                      onEdit={()=>{handleEditNote(element)}}
+                      onDelete={()=>{deleteNote(element)}}
+                      onPinNote={()=>{pinNote(element)}}
+                      key={element.id}
+                      />
+                  ))
+                }
+                </div> 
+              :<EmptyCard 
+              imgSrc={isSearch?"/no-notes.svg":"/add-notes.svg"} 
+              message={isSearch?`No Notes Found as per the given SEARCH query`:`Start Creating your first note click the right bottom  'Add' button to join thoughts , ideas and reminders . Let's Get started !` }
+              extramessage = {userInfo?"":"Please Login/Register then proceed"}
+            />}
+  
+        </div> }
+
+
+
 
       
      { userInfo ? <button className='w-16 h-16 flex items-center  justify-center rounded-2xl bg-blue-500 hover:bg-blue-600 absolute right-10 bottom-10 ' 
