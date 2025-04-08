@@ -40,7 +40,7 @@ import { timeFormatter } from '../../utils/timeFormat'
 
 function NoteCard({ title, date, content, tags, category, isPinned, onEdit, onDelete, onPinNote }) {
    return (
-    <div className="relative border border-gray-300   rounded-xl p-5 bg-white transition-all ease-in-out duration-300 group 
+    <div className="relative border border-gray-300   rounded-xl p-5 m-1 bg-white transition-all ease-in-out duration-300 group 
     hover:shadow-2xl hover:-translate-y-2 hover:z-10 min-w-92 max-w-92">
        <div className="flex items-center justify-between mb-3">
          <div className="flex-grow">
