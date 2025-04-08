@@ -182,9 +182,9 @@ function Home() {
             <span className='text-gray-500 text-2xl'>Loading Notes ... </span>
           </div>
         : 
-        <div>
+        <div className='px-1'>
         {allNotes && allNotes.length>0 ? 
-              <div className='flex gap-2 flex-wrap justify-center py-4 px-1'>
+              <div className='flex gap-2 flex-wrap justify-center py-4'>
                 {
                   allNotes.map((element)=>(
                       <NoteCard title={element.title}
