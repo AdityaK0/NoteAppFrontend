@@ -1,11 +1,18 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation ,useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import { MdEmail, MdPerson, MdNote } from 'react-icons/md';
 
 function ProfilePageCard() {
+  const navigate = useNavigate()
   const { username } = useParams();
   const location = useLocation();
   const userInfo = location.state?.userInfo;
+  
+  const onLogout = ()=>{
+    localStorage.clear()
+    navigate("/login")
+    return
+  }
 
   return (
     <>
@@ -38,9 +45,9 @@ function ProfilePageCard() {
             </div>
 
             {/* Logout Button */}
-            {/* <button className="mt-5 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded">
+            <button className="mt-5 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded" onClick={()=>onLogout()}>
               Logout
-            </button> */}
+            </button>
           </div>
         ) : (
           <p className="text-center text-gray-600">No user data found</p>
