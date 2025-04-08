@@ -23,7 +23,7 @@ function Navbar({userInfo,onSearchNote,onSearchClear}) {
   }
 
   return (
-    <div  className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
+    <div  className='bg-white flex items-center justify-between gap-3 px-6 py-2 drop-shadow'>
       <h2 className='text-xl font-medium text-black py-2' > <Link to="/">Notes</Link> </h2>
       <SearchBar value={searchQuery} onChange={({target})=>{
                                                         setSearchQuery(target.value);
