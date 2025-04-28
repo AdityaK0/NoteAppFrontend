@@ -1,21 +1,18 @@
-import React, { useEffect,useContext } from 'react'
+import React, { useEffect } from 'react'
 import Navbar  from '../../components/Navbar/Navbar'
 import NoteCard from '../../components/Cards/NoteCard'
-import { MdAdd, MdTry } from 'react-icons/md'
+import { MdAdd } from 'react-icons/md'
 import AddEditNotes from './AddEditNotes'
 import { useState } from 'react'
 import Modal from 'react-modal'
-import { data, Link , useNavigate} from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance'
 import Toast from '../../components/ToastMessage/Toast'
 import EmptyCard from '../../components/Cards/EmptyCard'
 
-import axios, { all } from 'axios'
 
 
 
 function Home() {
-  // const [userInfo,setUserInfo] = useState(null)
   const [loading,SetLoading] = useState(false)
   const [openAddEditModal,setOpenAddEditModal] = useState({
     isShown:false,
@@ -49,7 +46,6 @@ function Home() {
 
   
   const [allNotes, setAllNotes] = useState([])
-  const navigate = useNavigate()
 
   const [isSearch,setIsSearch] = useState(false)
 
@@ -216,8 +212,10 @@ function Home() {
       
      <button className='w-16 h-16 flex items-center  justify-center rounded-2xl bg-blue-500 hover:bg-blue-600 absolute right-10 bottom-10 ' 
       onClick={()=>{
-        setOpenAddEditModal({isShown:true,type:"add",data:null}); 
-      }}>
+        setOpenAddEditModal({isShown:true,type:"add",data:null})
+      }}> 
+
+
         <MdAdd className='text-[32px] text-white'/>
       </button>
 

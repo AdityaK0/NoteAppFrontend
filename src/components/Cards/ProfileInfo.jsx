@@ -6,7 +6,7 @@ import ProfilePageCard from './ProfilePageCard';
 import axiosInstance from '../../utils/axiosInstance';
 
 function ProfileInfo() {
-  const [userInfo,setUserInfo] = useState(null)
+  const [userInfo,setUserInfo] = useState(JSON.parse(localStorage.getItem("userInfo")) || null)
   const navigate = useNavigate()
   const ProfileViewer = () =>{
     navigate(`/profile/${userInfo.username}`,{state:{userInfo}});

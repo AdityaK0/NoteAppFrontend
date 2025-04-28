@@ -20,7 +20,6 @@ function AddEditNotes({getAllNotes,data,type,onClose,showToastMesage}) {
           description:description,
           tags:  tags.join(",")
       });
-       console.log(tags);
        
       if (response.data) {
         showToastMesage("Note Added Successfully ")
@@ -33,7 +32,7 @@ function AddEditNotes({getAllNotes,data,type,onClose,showToastMesage}) {
       if (error.response && error.response.data) {
               if(error.response.data["title"]) { return SetError(`${String(Object.keys(error.response.data))} :=> ${error.response.data["title"]}`) }
               if(error.response.data["description"]) { return SetError(`${String(Object.keys(error.response.data))} :=>  ${error.response.data["description"]}`)}
-              if(error.response.data){return SetError(String(error.response.data.detail)) } 
+              if(error.response.data){return SetError("Please login  :=: "+ String(error.response.data.detail)) } 
               console.log(error);
               
 
