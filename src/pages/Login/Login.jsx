@@ -6,8 +6,8 @@ import { useState } from 'react'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from '../../utils/axiosInstance'
 import { useNavigate } from 'react-router-dom'
-import { FaS } from 'react-icons/fa6'
-import {FadeLoader} from 'react-spinners'
+import useStore from '../../utils/store'
+
 
 function Login() {
   const [email, setEmail] = useState("")  
@@ -15,7 +15,7 @@ function Login() {
   const [error, setError] = useState(null) ;
   const [btnLoader,setBtnLoader] = useState(false)
   const navigate = useNavigate()
-
+  const loginStoreFunction = useStore((state)=>state.login)
   const handleLogin = async (e)=>{
     e.preventDefault()
     

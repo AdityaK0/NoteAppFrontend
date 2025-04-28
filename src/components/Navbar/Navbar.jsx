@@ -31,7 +31,7 @@ function Navbar({userInfo,onSearchNote,onSearchClear}) {
         handleSearch={handleSearch}
         onClearSearch={onClearSearch}
       />
-      <ProfileInfo userInfo={userInfo} onLogout={onLogout}/>
+      <ProfileInfo onLogout={onLogout}/>
     </div>
   )
 }

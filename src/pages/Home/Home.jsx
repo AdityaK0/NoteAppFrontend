@@ -15,7 +15,7 @@ import axios, { all } from 'axios'
 
 
 function Home() {
-  const [userInfo,setUserInfo] = useState(null)
+  // const [userInfo,setUserInfo] = useState(null)
   const [loading,SetLoading] = useState(false)
   const [openAddEditModal,setOpenAddEditModal] = useState({
     isShown:false,
@@ -84,24 +84,24 @@ function Home() {
       }
   }
 
-  const getUserInfo = async ()=>{
-    try {
-      const response =  await axiosInstance.get("api/auth/get-user/") 
-      if(response.data){
-        console.log(response.data);
-        setUserInfo(response.data)
-        return
-      }
-    }
-     catch (error) {
-      if(error.response.status == 401){
-        localStorage.clear()
-        navigate("/login")
-      }
-      console.log(error);
+  // const getUserInfo = async ()=>{
+  //   try {
+  //     const response =  await axiosInstance.get("api/auth/get-user/") 
+  //     if(response.data){
+  //       console.log(response.data);
+  //       setUserInfo(response.data)
+  //       return
+  //     }
+  //   }
+  //    catch (error) {
+  //     if(error.response.status == 401){
+  //       localStorage.clear()
+  //       navigate("/login")
+  //     }
+  //     console.log(error);
       
-    }
-  }
+  //   }
+  // }
 
   const deleteNote = async (data)=>{
     const noteId = data.id
@@ -165,16 +165,16 @@ function Home() {
   }
 
   useEffect(()=>{
-    if (!userInfo) {
-      getUserInfo();
-    }
+    // if (!userInfo) {
+    //   getUserInfo();
+    // }
     getAllNotes();
     return ()=>{}
   },[])
 
   return (
     <>
-    <Navbar userInfo={userInfo} onSearchNote={onSearchNote} onSearchClear={onSearchClear}  />
+    <Navbar  onSearchNote={onSearchNote} onSearchClear={onSearchClear}  />
 
     <div className='container mx-auto'>
       {loading?
@@ -205,7 +205,7 @@ function Home() {
               :<EmptyCard 
               imgSrc={isSearch?"/no-notes.svg":"/add-notes.svg"} 
               message={isSearch?`No Notes Found as per the given SEARCH query`:`Start Creating your first note click the right bottom  'Add' button to join thoughts , ideas and reminders . Let's Get started !` }
-              extramessage = {userInfo?"":"Please Login/Register then proceed"}
+              extramessage = {"."}
             />}
   
         </div> }
@@ -214,12 +214,12 @@ function Home() {
 
 
       
-     { userInfo ? <button className='w-16 h-16 flex items-center  justify-center rounded-2xl bg-blue-500 hover:bg-blue-600 absolute right-10 bottom-10 ' 
+     <button className='w-16 h-16 flex items-center  justify-center rounded-2xl bg-blue-500 hover:bg-blue-600 absolute right-10 bottom-10 ' 
       onClick={()=>{
         setOpenAddEditModal({isShown:true,type:"add",data:null}); 
       }}>
         <MdAdd className='text-[32px] text-white'/>
-      </button> : null}
+      </button>
 
       <Modal
                isOpen = {openAddEditModal.isShown}
