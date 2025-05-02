@@ -174,7 +174,7 @@ function Home() {
 
     <div className='container mx-auto'>
       {loading?
-            <div className='flex h-screen justify-center items-center px-1'>
+            <div className='flex h-screen justify-center items-center px-1 w-full'>
             <span className='text-gray-500 text-2xl'>Loading Notes ... </span>
           </div>
         : 
