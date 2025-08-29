@@ -57,9 +57,14 @@ function NoteCard({ title, date, content, tags, category, isPinned, onEdit, onDe
          />
        </div>
 
-       <p className="text-xs text-gray-600 mb-3 leading-relaxed min-h-[2rem]">
+       {/* <p className="text-xs text-gray-600 mb-3 leading-relaxed min-h-[2rem]">
          {content?.slice(0, 100)}{content?.length > 100 ? "..." : ""}
-       </p>
+       </p> */}
+       <p className="text-xs text-gray-600 mb-3 leading-relaxed min-h-[2rem] break-words overflow-hidden">
+        {content?.slice(0, 100)}
+        {content?.length > 100 ? "..." : ""}
+      </p>
+
 
        {category && (
          <div className="mb-3">
