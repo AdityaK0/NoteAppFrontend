@@ -50,18 +50,18 @@ function ProfileInfo() {
 
   return (
     <div>
-      {!userInfo?
-      <div className='flex items-center gap-3'>
+      {(!userInfo && (localStorage.getItem("access") || localStorage.getItem("refresh") )) ?
+      (<div className='flex items-center gap-3'>
         <Link to={"/login"}>Login</Link>
         <Link to={"/register"}>Register</Link>
-      </div>:
-        <div className='flex items-center gap-3'>
+      </div>):
+      ( <div className='flex items-center gap-3'>
         <div className='w-12 h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-200 cursor-pointer'  onClick={ProfileViewer}>
             {getInitials(userInfo.fullname)}
 
         </div>
 
-      </div>
+        </div>)
 
       }
 
