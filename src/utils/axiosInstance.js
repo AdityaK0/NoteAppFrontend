@@ -44,6 +44,7 @@ const refreshAccessToken = async () => {
 const logoutUser = () => {
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");
+  localStorage.removeItem("userInfo")
   window.location.href = "/login";
   return Promise.reject("Authentication failed");
 };
