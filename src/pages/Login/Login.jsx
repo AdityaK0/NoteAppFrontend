@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from '../../components/Input/PasswordInput';
@@ -11,6 +11,12 @@ function Login() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("access")) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

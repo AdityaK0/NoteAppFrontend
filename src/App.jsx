@@ -6,6 +6,7 @@ import Register from './pages/Register/Register';
 import NotFound from './pages/NotFound/NotFound';
 import ProfilePageCard from './components/Cards/ProfilePageCard';
 import ProtectedRoute from './components/ProtectedRoute';
+import PublicNote from './pages/PublicNote/PublicNote';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/s/:token" element={<PublicNote />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
