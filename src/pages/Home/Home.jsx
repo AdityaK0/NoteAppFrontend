@@ -234,7 +234,6 @@ function Home() {
         }}
         contentLabel="Note Modal"
         className="w-[95%] md:w-[600px] max-h-[90vh] bg-white mx-auto mt-[5vh] p-10 overflow-auto border-black border-2 outline-none shadow-2xl"
-        style={{ borderRadius: '4px' }}
       >
         <AddEditNotes
           type={openAddEditModal.type}
