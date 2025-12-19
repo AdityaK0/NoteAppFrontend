@@ -1,36 +1,122 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --accent: #f4f4f5;
+  --radius: 4px;
+}
 
-@layer base{
-  html{
-    font-family: "Poppins","sans-serif";
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
   }
 
-  body{
-    background-color: #fdfeff;
-    overflow-x: hidden;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
 
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
   }
 }
 
-
-@layer components{
-  .input-box{
-    @apply w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none
+@layer components {
+  .btn-minimal {
+    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 border text-sm font-medium;
+    border-radius: var(--radius);
+    background-color: transparent;
+    border-color: var(--border);
+    color: var(--foreground);
   }
 
-  .btn-primary{
-    @apply w-full text-sm  bg-blue-500 text-white  p-2 rounded my-1 hover:bg-blue-600;
-  }
-  
-  .icon-btn{
-    @apply text-xl text-slate-300 cursor-pointer hover:text-blue-500
+  .btn-minimal:hover {
+    background-color: var(--secondary);
+    border-color: var(--foreground);
   }
 
-  .input-label{
-    @apply text-xs text-slate-400
+  .btn-minimal-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 text-sm font-medium;
+    border-radius: var(--radius);
+    background-color: var(--foreground);
+    color: var(--background);
   }
 
+  .btn-minimal-primary:hover {
+    @apply opacity-90;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
 
+  .input-minimal {
+    @apply w-full px-4 py-2 text-sm bg-transparent border outline-none transition-all duration-200;
+    border-radius: var(--radius);
+    border-color: var(--border);
+  }
+
+  .input-minimal:focus {
+    border-color: var(--foreground);
+    box-shadow: 0 0 0 1px var(--foreground);
+  }
+
+  .card-minimal {
+    @apply border bg-white p-6 transition-all duration-300;
+    border-radius: var(--radius);
+    border-color: var(--border);
+  }
+
+  .card-minimal:hover {
+    border-color: var(--foreground);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Redefining previous classes to match new theme */
+  .input-box {
+    @apply input-minimal;
+  }
+
+  .btn-primary {
+    @apply btn-minimal-primary;
+  }
+
+  .input-label {
+    @apply text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1 block;
+  }
+}
+
+.glass-card {
+  @apply card-minimal;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
 }

@@ -1,104 +1,79 @@
-// import React from 'react'
-// import { MdOutlinePushPin } from 'react-icons/md'
-// import { MdCreate,MdDelete } from 'react-icons/md'
-// import { timeFormatter } from '../../utils/timeFormat'
-
-// function NoteCard({title,date,content,category,tags,isPinned,onEdit,onDelete,onPinNote}) {
-    
-//   return (
-//     <div className='border  rounded p-4 bg-white  hover:shadow-xl transition-all ease-in-out '>
-
-//         <div className='flex items-center justify-between'>
-//             <div>
-//                 <h6 className='text-sm font-medium '>{title}</h6>
-//                 <span className='text-sx text-slate-500'>{timeFormatter(date)}</span>
-//             </div>
-//             < MdOutlinePushPin className={`icon-btn ${isPinned ? `text-blue-500`:`text-slate-300`}`} onClick={onPinNote} />
-
-//         </div>
-
-//         <p className='text-xs text-slate-600 mt-2' >{content?.slice(0,60)}</p>
-//         <div className='flex items-center justify-between mt-2'>
-//             <div className='text-xs text-slate-500 '>{tags.map((el)=>"#"+el)}</div>
-//             <div className='flex items-center gap-2'>
-//                 <MdCreate className='icon-btn hover:text-green-600' onClick={onEdit}/>
-//                 <MdDelete className='icon-btn hover:text-red-500' onClick={onDelete}/>
-//             </div>
-//         </div>
-//     </div>
-//   )
-// }
-
-// export default NoteCard
-
-// import React from 'react'
-// import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md'
-// import { timeFormatter } from '../../utils/timeFormat'
-import React from 'react'
-import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md'
-import { timeFormatter } from '../../utils/timeFormat'
+import React from 'react';
+import { MdOutlinePushPin, MdCreate, MdDelete } from 'react-icons/md';
+import { timeFormatter } from '../../utils/timeFormat';
 
 function NoteCard({ title, date, content, tags, category, isPinned, onEdit, onDelete, onPinNote }) {
-   return (
-    <div className="relative border border-gray-300   rounded-xl p-5 m-1 bg-white transition-all ease-in-out duration-300 group 
-    hover:shadow-2xl hover:-translate-y-2 hover:z-10 min-w-92 max-w-92">
-       <div className="flex items-center justify-between mb-3">
-         <div className="flex-grow">
-           <h6 className="text-sm font-bold text-gray-800 truncate max-w-[80%]">{title}</h6>
-           <span className="text-xs text-gray-500 block mt-1">{timeFormatter(date)}</span>
-         </div>
-         <MdOutlinePushPin
-            className={`w-6 h-6 cursor-pointer transition-all duration-200 ${
-              isPinned 
-              ? "text-blue-500 opacity-100 scale-110" 
-              : "text-gray-300 opacity-50 hover:text-gray-500 hover:opacity-80"
-            }`}
-            onClick={onPinNote}
-         />
-       </div>
+  return (
+    <div className="card-minimal group flex flex-col h-full relative border-1 p-2">
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <div className="flex-1 min-w-0">
+          <h6 className="text-lg font-bold text-black leading-tight line-clamp-1 mb-1 font-['Space_Grotesk']">
+            {title}
+          </h6>
+          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+            {timeFormatter(date)}
+          </span>
+        </div>
 
-       {/* <p className="text-xs text-gray-600 mb-3 leading-relaxed min-h-[2rem]">
-         {content?.slice(0, 100)}{content?.length > 100 ? "..." : ""}
-       </p> */}
-       <p className="text-xs text-gray-600 mb-3 leading-relaxed min-h-[2rem] break-words overflow-hidden">
-        {content?.slice(0, 100)}
-        {content?.length > 100 ? "..." : ""}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onPinNote();
+          }}
+          className={`p-1.5 border transition-all duration-200 ${isPinned
+              ? 'bg-black text-white border-black'
+              : 'text-zinc-300 border-transparent hover:border-zinc-200 hover:text-black'
+            }`}
+          style={{ borderRadius: '4px' }}
+        >
+          <MdOutlinePushPin className={`w-4 h-4 ${isPinned ? 'rotate-[-45deg]' : ''}`} />
+        </button>
+      </div>
+
+      <p className="text-sm text-zinc-600 leading-relaxed line-clamp-4 mb-6 flex-1 font-['Inter']">
+        {content}
       </p>
 
+      <div className="flex flex-wrap gap-2 mt-auto">
+        {category && (
+          <span className="px-2 py-0.5 border border-black text-[9px] font-bold uppercase tracking-tighter text-black">
+            {category}
+          </span>
+        )}
+        {tags?.map((tag, index) => (
+          <span
+            key={index}
+            className="text-[10px] text-zinc-400 font-medium"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
 
-       {category && (
-         <div className="mb-3">
-           <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-md">
-             {category}
-           </span>
-         </div>
-       )}
-
-       <div className="flex items-center justify-between mt-3  pt-3 border-t border-gray-200">
-         <div className="flex flex-wrap gap-1 max-w-[70%]">
-           {tags?.map((el, index) => (
-             <span 
-               key={index} 
-               className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full"
-             >
-               #{el}
-             </span>
-           ))}
-         </div>
-
-         <div className="flex items-center gap-3">
-           <MdCreate
-              className="w-5 h-5 cursor-pointer text-gray-400 hover:text-green-600 transition-all transform hover:scale-110"
-              onClick={onEdit}
-            />
-           <MdDelete
-              className="w-5 h-5 cursor-pointer text-gray-400 hover:text-red-500 transition-all transform hover:scale-110"
-              onClick={onDelete}
-            />
-         </div>
-       </div>
-     </div>
-   )
+      <div className="absolute bottom-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          className="p-2 border border-zinc-100 bg-white text-zinc-400 hover:text-black hover:border-black transition-all"
+          style={{ borderRadius: '4px' }}
+        >
+          <MdCreate size={16} />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          className="p-2 border border-zinc-100 bg-white text-zinc-400 hover:text-red-500 hover:border-red-500 transition-all"
+          style={{ borderRadius: '4px' }}
+        >
+          <MdDelete size={16} />
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default NoteCard
+export default NoteCard;

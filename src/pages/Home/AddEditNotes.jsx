@@ -1,155 +1,145 @@
-import React, { useState } from 'react'
-import TagInput from '../../components/Input/TagInput'
-import { MdClose } from 'react-icons/md'
-import axiosInstance from '../../utils/axiosInstance'
+import React, { useState } from 'react';
+import TagInput from '../../components/Input/TagInput';
+import { MdClose } from 'react-icons/md';
+import axiosInstance from '../../utils/axiosInstance';
 
-function AddEditNotes({getAllNotes,data,type,onClose,showToastMesage}) {
+function AddEditNotes({ getAllNotes, data, type, onClose, showToastMessage }) {
+  const [title, setTitle] = useState(data?.title || "");
+  const [description, setdescription] = useState(data?.description || "");
+  const [tags, setTags] = useState(data?.tags ? data.tags.split(",").map(tag => tag.trim()) : []);
+  const [category, setCategory] = useState(data?.category || "Work");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [title,setTitle] = useState(data?.title || "")
-  const [description,setdescription] = useState(data?.description || "")
-  const [tags,setTags] = useState(data?.tags ? data.tags.split(",").map(tag => tag.trim()) : [])
-  const [category,SetCategory] = useState(data?.category || "Work")
-
-  const [error,SetError] = useState("")
-  
-  const addNewNote = async () =>{
-    try {
-      const response = await axiosInstance.post("/api/v1/notes/add-note/",{
-          title:title,
-          category:category,
-          description:description,
-          tags:  tags.join(",")
-      });
-       
-      if (response.data) {
-        showToastMesage("Note Added Successfully ")
-        getAllNotes()
-        onClose()
-        
-      }
-        
-    }catch (error) {
-      if (error.response && error.response.data) {
-              if(error.response.data["title"]) { return SetError(`${String(Object.keys(error.response.data))} :=> ${error.response.data["title"]}`) }
-              if(error.response.data["description"]) { return SetError(`${String(Object.keys(error.response.data))} :=>  ${error.response.data["description"]}`)}
-              if(error.response.data){return SetError("Please login  :=: "+ String(error.response.data.detail)) } 
-              console.log(error);
-              
-
-            
-      }
+  const handleAddNote = async () => {
+    if (!title.trim()) {
+      setError("Please enter a title.");
+      return;
     }
-    
-  }
-  const editNote = async () =>{
-    try {
-      const response = await axiosInstance.put(`api/v1/notes/update/${data.id}/`,{
-          title:title,
-          category:category,
-          description:description,
-          tags:  tags.join(",")
-      });
-
-      if (response.data) {
-        showToastMesage("Note Updated Successfully ")
-        getAllNotes()
-        onClose()
-        
-      }
-        
-    }catch (error) {
-      if (error.response && error.response.data) {
-              if(error.response.data["title"]) { return SetError(`${String(Object.keys(error.response.data))} :=> ${error.response.data["title"]}`) }
-              if(error.response.data["description"]) { return SetError(`${String(Object.keys(error.response.data))} :=>  ${error.response.data["description"]}`)}
-              if(error.response.data){return SetError(String(error.response.data.detail)) } 
-
-            
-      }
+    if (!description.trim()) {
+      setError("Please enter a description.");
+      return;
     }
-  }
 
+    setError("");
+    setIsLoading(true);
 
+    try {
+      const payload = {
+        title,
+        category,
+        description,
+        tags: tags.join(","),
+      };
 
-  const handleAddNote = () =>{
-      if(!title){
-        SetError("Please enter the title");
-        return
+      if (type === "edit") {
+        const response = await axiosInstance.put(`/api/v1/notes/update/${data.id}/`, payload);
+        if (response.data) {
+          showToastMessage("Note updated successfully");
+          getAllNotes();
+          onClose();
+        }
+      } else {
+        const response = await axiosInstance.post("/api/v1/notes/add-note/", payload);
+        if (response.data) {
+          showToastMessage("Note added successfully");
+          getAllNotes();
+          onClose();
+        }
       }
-      if(!description){
-        SetError("Please enter the description");
-        return
+    } catch (error) {
+      if (error.response?.data) {
+        const errorData = error.response.data;
+        setError(errorData.title?.[0] || errorData.description?.[0] || errorData.detail || "Something went wrong.");
       }
-
-      SetError("")
-
-      if(type == "edit"){
-        editNote()
-      }
-      else{
-        addNewNote()
-      }
-  }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className='relative p-2 outline-none'>
-         <button
-         className='w-8 h-8  cursor-pointer text-black  rounded-full flex items-center justify-center   text-sm  absolute -top-3 -right-3 hover:bg-gray-500 '
-         onClick={onClose}
-         >
-          <MdClose className='text-xl text-slate-400'/>
-         </button>
-        <div  className='flex flex-col gap-2'>
-          <label htmlFor="" className='input-label'>TITLE</label>
-          <input type="text"
-           className='text-[14px] shadow-xs shadow-black text-slate-950 outline-none  rounded px-2 py-2'
-           placeholder='Go To Gym At 5'
-           value={title}
-           onChange={({target})=>setTitle(target.value)}
-           />
-        </div>
+    <div className="relative font-['Inter']">
+      <div className="flex items-center justify-between mb-8">
+        <h5 className="text-2xl font-black text-black uppercase tracking-tighter font-['Space_Grotesk']">
+          {type === 'edit' ? 'Update Entry' : 'New Entry'}
+        </h5>
+        <button
+          onClick={onClose}
+          className="p-1 border border-transparent hover:border-black transition-all"
+          style={{ borderRadius: '4px' }}
+        >
+          <MdClose size={24} />
+        </button>
+      </div>
 
-
-        <div className="flex flex-col gap-2 mt-2">
-          <label htmlFor="category" className="input-label">CATEGORY</label>
-          <select
-            id="category"
-            className="text-[14px] shadow-xs shadow-black text-slate-950 outline-none  rounded px-2 py-2"
-            value={category}
-            onChange={({ target }) => SetCategory(target.value)}
-          >
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-            <option value="Ideas">Ideas</option>
-            <option value="Daily Work">Daily Work</option>
-            <option value="Miscellaneous">Miscellaneous</option>
-          </select>
-        </div>
-
-        <div className='flex flex-col gap-2 mt-4'>
-          <label htmlFor="" className='input-label'>description</label>
-          <textarea 
-             type="text"
-             className='text-sm text-slate-950 outline-none bg-slate-50 p-2  shadow-xs shadow-black rounded px-2 py-2'
-             placeholder='description'
-             rows={4}
-             value={description}
-             onChange={({target})=>setdescription(target.value)}
-
+      <div className="space-y-6">
+        <div>
+          <label className="input-label">Conceptual Title</label>
+          <input
+            type="text"
+            className="input-box"
+            placeholder="Define the core idea..."
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
           />
         </div>
 
-        <div className='mt-3'>
-           <label htmlFor="" className='input-label'>TAGS</label>
-           <TagInput tags={tags} setTags={setTags} />
-        </div>
-          <div className='h-3 p-2 text-center'>
-               {error && <p className='text-red-500 text-xs pb-1'>{error}</p>}
+        <div>
+          <label className="input-label">Classification</label>
+          <div className="relative">
+            <select
+              className="input-box appearance-none cursor-pointer pr-10"
+              value={category}
+              onChange={({ target }) => setCategory(target.value)}
+            >
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Ideas">Ideas</option>
+              <option value="Important">Important</option>
+              <option value="Daily Work">Daily Work</option>
+              <option value="Miscellaneous">Miscellaneous</option>
+            </select>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </div>
           </div>
-         <button className='btn-primary font-medium mt-5 p-3' onClick={handleAddNote}>
-            {type === "edit"?"UPDATE":"ADD"}
-         </button>
+        </div>
+
+        <div>
+          <label className="input-label">Detailed Content</label>
+          <textarea
+            className="input-box min-h-[140px] resize-none py-4"
+            placeholder="Expand your thoughts..."
+            rows={5}
+            value={description}
+            onChange={({ target }) => setdescription(target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="input-label">Metadata Tags</label>
+          <TagInput tags={tags} setTags={setTags} />
+        </div>
+      </div>
+
+      {error && (
+        <div className="mt-8 p-4 border border-red-500 text-red-500 text-[11px] font-bold uppercase tracking-widest text-center">
+          Error: {error}
+        </div>
+      )}
+
+      <button
+        className="w-full bg-black text-white font-bold py-4 uppercase tracking-widest text-xs mt-10 hover:opacity-90 active:translate-y-1 transition-all"
+        onClick={handleAddNote}
+        disabled={isLoading}
+        style={{ borderRadius: '4px' }}
+      >
+        {isLoading ? "Processing..." : (type === "edit" ? "Update System Entry" : "Commit Entry")}
+      </button>
     </div>
-  )
+  );
 }
 
-export default AddEditNotes
+export default AddEditNotes;
