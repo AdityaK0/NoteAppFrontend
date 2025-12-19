@@ -1,8 +1,11 @@
 import React from 'react';
-import { MdOutlinePushPin, MdCreate, MdDelete, MdShare, MdPublic } from 'react-icons/md';
+import { MdOutlinePushPin, MdCreate, MdDelete, MdShare, MdPublic, MdOutlineDone, MdContentCopy } from 'react-icons/md';
 import { timeFormatter } from '../../utils/timeFormat';
+import { useState } from 'react';
 
-function NoteCard({ title, date, content, tags, category, isPinned, isPublic, shareToken, onEdit, onDelete, onPinNote, onShare }) {
+function NoteCard({ title, date, content, tags, category, isPinned, isPublic, shareToken, onEdit, onDelete, onPinNote, onShare, showToastMessage }) {
+  const [copied, setCopied] = useState(false);
+
 
   const copyShareLink = (e) => {
     e.stopPropagation();
@@ -12,7 +15,9 @@ function NoteCard({ title, date, content, tags, category, isPinned, isPublic, sh
     }
     const shareUrl = `${window.location.origin}/s/${shareToken}`;
     navigator.clipboard.writeText(shareUrl);
-    alert("Public Link Copied to Clipboard!");
+    setCopied(true);
+    showToastMessage("Public Access Link Copied!", "add");
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -80,11 +85,17 @@ function NoteCard({ title, date, content, tags, category, isPinned, isPublic, sh
       <div className="absolute bottom-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
         <button
           onClick={copyShareLink}
-          title={isPublic ? "Copy Link" : "Publish to Web"}
-          className={`p-2 border bg-white ${isPublic ? 'text-black border-black' : 'text-zinc-400 border-zinc-100'} hover:text-black hover:border-black transition-all`}
+          title={isPublic ? (copied ? "Copied!" : "Copy Link") : "Publish to Web"}
+          className={`p-2 border transition-all duration-300 ${copied ? 'bg-black text-white border-black' : 'bg-white text-zinc-400 border-zinc-100'} ${isPublic && !copied ? 'text-black border-black' : ''} hover:text-black hover:border-black`}
           style={{ borderRadius: '4px' }}
         >
-          <MdShare size={16} />
+          {copied ? (
+            <MdOutlineDone size={16} className="animate-in zoom-in duration-300" />
+          ) : isPublic ? (
+            <MdContentCopy size={16} className="animate-in fade-in duration-300" />
+          ) : (
+            <MdShare size={16} />
+          )}
         </button>
         <button
           onClick={(e) => {

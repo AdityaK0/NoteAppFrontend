@@ -249,6 +249,7 @@ function Home() {
                     onDelete={() => deleteNote(note)}
                     onPinNote={() => pinNote(note)}
                     onShare={() => toggleShare(note)}
+                    showToastMessage={showToastMessage}
                   />
                 ) : (
                   <div
