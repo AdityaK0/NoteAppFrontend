@@ -155,7 +155,7 @@ function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-5xl font-black text-black mb-2 tracking-tighter uppercase font-['Space_Grotesk'] leading-none">
-                {view === 'notes' ? 'Studio' : 'Tactical'}
+                {view === 'notes' ? 'Studio Notes' : 'Studio Notes'}
               </h1>
               <p className="text-zinc-400 font-medium tracking-tight text-sm uppercase tracking-[0.2em]">
                 {view === 'notes' ? '_SYSTEM_READY' : '_OBJECTIVES_ACTIVE'}
