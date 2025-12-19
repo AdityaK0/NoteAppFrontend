@@ -38,69 +38,53 @@
 }
 
 @layer components {
+  /* Use standard utilities directly to avoid v4 @apply issues with custom classes */
+
   .btn-minimal {
-    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 border text-sm font-medium;
+    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 border text-sm font-medium border-zinc-200 bg-transparent text-black;
     border-radius: var(--radius);
-    background-color: transparent;
-    border-color: var(--border);
-    color: var(--foreground);
   }
 
   .btn-minimal:hover {
-    background-color: var(--secondary);
-    border-color: var(--foreground);
+    @apply bg-zinc-100 border-black;
   }
 
-  .btn-minimal-primary {
-    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 text-sm font-medium;
-    border-radius: var(--radius);
-    background-color: var(--foreground);
-    color: var(--background);
-  }
-
-  .btn-minimal-primary:hover {
-    @apply opacity-90;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .input-minimal {
-    @apply w-full px-4 py-2 text-sm bg-transparent border outline-none transition-all duration-200;
-    border-radius: var(--radius);
-    border-color: var(--border);
-  }
-
-  .input-minimal:focus {
-    border-color: var(--foreground);
-    box-shadow: 0 0 0 1px var(--foreground);
-  }
-
-  .card-minimal {
-    @apply border bg-white p-6 transition-all duration-300;
-    border-radius: var(--radius);
-    border-color: var(--border);
-  }
-
-  .card-minimal:hover {
-    border-color: var(--foreground);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-  }
-
-  /* Redefining previous classes to match new theme */
-  .input-box {
-    @apply input-minimal;
-  }
-
+  .btn-minimal-primary,
   .btn-primary {
-    @apply btn-minimal-primary;
+    @apply inline-flex items-center justify-center px-4 py-2 transition-all duration-200 text-sm font-medium bg-black text-white;
+    border-radius: var(--radius);
+  }
+
+  .btn-minimal-primary:hover,
+  .btn-primary:hover {
+    @apply opacity-90 shadow-lg shadow-black/10;
+  }
+
+  .input-minimal,
+  .input-box {
+    @apply w-full px-4 py-2 text-sm bg-transparent border border-zinc-200 outline-none transition-all duration-200;
+    border-radius: var(--radius);
+  }
+
+  .input-minimal:focus,
+  .input-box:focus {
+    @apply border-black ring-1 ring-black;
+  }
+
+  .card-minimal,
+  .glass-card {
+    @apply border border-zinc-200 bg-white p-6 transition-all duration-300;
+    border-radius: var(--radius);
+  }
+
+  .card-minimal:hover,
+  .glass-card:hover {
+    @apply border-black shadow-xl shadow-black/5;
   }
 
   .input-label {
-    @apply text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1 block;
+    @apply text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1 block;
   }
-}
-
-.glass-card {
-  @apply card-minimal;
 }
 
 /* Scrollbar styling */
