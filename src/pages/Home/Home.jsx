@@ -154,7 +154,7 @@ function Home() {
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-5xl font-black text-black mb-2 tracking-tighter uppercase font-['Space_Grotesk'] leading-none">
+              <h1 className="text-3xl md:text-5xl font-black text-black mb-2 tracking-tighter uppercase font-['Space_Grotesk'] leading-none">
                 {view === 'notes' ? 'Notes Studio' : 'Notes Studio'}
               </h1>
               <p className="text-zinc-400 font-medium tracking-tight text-sm uppercase tracking-[0.2em]">
@@ -182,7 +182,7 @@ function Home() {
 
           {/* Stats Grid - Compact for SaaS feel */}
           {!loading && allNotes.length > 0 && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {[
                 { label: view === 'notes' ? 'Total_Entries' : 'Active_Tasks', value: view === 'notes' ? allNotes.length : allNotes.filter(n => n.category === 'Daily Work' && !n.is_completed).length },
                 { label: view === 'notes' ? 'Pinned_Files' : 'Finalized', value: view === 'notes' ? allNotes.filter(n => n.ispinned).length : allNotes.filter(n => n.category === 'Daily Work' && n.is_completed).length },

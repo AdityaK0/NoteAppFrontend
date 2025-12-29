@@ -73,7 +73,7 @@ function Register() {
       <Navbar />
 
       <div className="flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-[500px] border-2 border-black p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-white" style={{ borderRadius: '4px' }}>
+        <div className="w-full max-w-[500px] border-2 border-black p-6 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-white" style={{ borderRadius: '4px' }}>
           <form onSubmit={handleRegister}>
             <div className="mb-12">
               <h4 className="text-4xl font-black text-black mb-2 tracking-tighter uppercase font-['Space_Grotesk'] leading-tight">
