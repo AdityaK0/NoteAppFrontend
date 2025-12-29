@@ -82,7 +82,7 @@ function NoteCard({ title, date, content, tags, category, isPinned, isPublic, sh
         ))}
       </div>
 
-      <div className="absolute bottom-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
+      <div className="absolute bottom-4 right-4 flex items-center gap-1 opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
         <button
           onClick={copyShareLink}
           title={isPublic ? (copied ? "Copied!" : "Copy Link") : "Publish to Web"}
